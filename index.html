@@ -114,7 +114,7 @@
             padding: 0 20px;
         }
 
-        /* BENTO GRID HERO SECTION */
+        /* BENTO HERO SECTION */
         .hero-bento-grid {
             display: grid;
             grid-template-columns: 2fr 1fr;
@@ -297,7 +297,6 @@
             margin-bottom: 60px;
         }
 
-        /* Featured Tourney Card Spans 2 Columns */
         .tourney-card.featured {
             grid-column: span 2;
             display: flex;
@@ -451,7 +450,7 @@
             flex-shrink: 0;
         }
 
-        /* ORGANIZERS & HELPLINE SIDE-BY-SIDE GRID */
+        /* ORGANIZERS GRID WITH CUSTOM PFP IMAGES */
         .organizers-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -474,8 +473,8 @@
         }
 
         .avatar-circle {
-            width: 80px;
-            height: 80px;
+            width: 84px;
+            height: 84px;
             border-radius: 50%;
             margin: 0 auto 12px;
             background: linear-gradient(135deg, #1c2330, #2a3447);
@@ -486,6 +485,13 @@
             font-size: 32px;
             color: var(--accent-orange);
             box-shadow: 0 0 15px var(--accent-glow);
+            overflow: hidden;
+        }
+
+        .avatar-circle img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .role-pill {
@@ -604,7 +610,7 @@
 
     <div class="dashboard-container">
         
-        <!-- BENTO HERO SECTION (2-Column Grid Layout) -->
+        <!-- BENTO HERO SECTION -->
         <section class="hero-bento-grid" id="about">
             <div class="bento-hero-main">
                 <h1>Welcome To <span>Booyah HUB</span></h1>
@@ -633,7 +639,7 @@
             </div>
         </section>
 
-        <!-- LIVE MATCHES SECTION (ASYMMETRIC GRID WITH TAB FILTERS) -->
+        <!-- LIVE MATCHES SECTION -->
         <section id="matches" style="margin-bottom: 60px;">
             <div class="section-header-flex">
                 <div class="section-title"><i class="fa-solid fa-trophy"></i> Live Esports Arena</div>
@@ -652,9 +658,8 @@
             </div>
         </section>
 
-        <!-- TWO-COLUMN SIDE-BY-SIDE TRUST & WITHDRAWAL WORKFLOW -->
+        <!-- TWO-COLUMN TRUSTABILITY & WITHDRAWAL WORKFLOW -->
         <section class="trust-workflow-wrapper" id="trustability">
-            <!-- Left Side: Trust Features -->
             <div class="trust-side-box">
                 <div class="section-title" style="margin-bottom: 20px;"><i class="fa-solid fa-shield-halved"></i> Verification Systems</div>
                 
@@ -675,7 +680,6 @@
                 </div>
             </div>
 
-            <!-- Right Side: Withdrawal Process Steps -->
             <div class="workflow-side-box">
                 <div class="section-title" style="margin-bottom: 20px;"><i class="fa-solid fa-list-check"></i> Transparent Withdrawal Flow</div>
                 
@@ -705,15 +709,15 @@
             </div>
         </section>
 
-        <!-- ORGANIZERS 3-COLUMN SIDE-BY-SIDE GRID -->
+        <!-- ORGANIZERS SECTION WITH CUSTOM PFP IMAGES -->
         <section id="organizers" style="margin-bottom: 60px;">
             <div class="section-title" style="margin-bottom: 25px;"><i class="fa-solid fa-crown"></i> Organizers & Core Team</div>
             
             <div class="organizers-grid">
                 <!-- Main Organizer -->
                 <div class="organizer-card">
-                    <div class="avatar-circle" style="border-color: var(--accent-gold); overflow: hidden; padding: 0;">
-                        <img src="https://i.postimg.cc/VL9wYgP0/Chat-GPT-Image-Sep-23-2026-07-41-18-AM.png" alt="Rage Monarch" style="width: 100%; height: 100%; object-fit: cover;">
+                    <div class="avatar-circle" style="border-color: var(--accent-gold); color: var(--accent-gold);">
+                        <i class="fa-solid fa-crown"></i>
                     </div>
                     <h3>Rage Monarch</h3>
                     <span class="role-pill">Main Organizer</span>
@@ -723,10 +727,10 @@
                     </div>
                 </div>
 
-                <!-- Co-Organizer -->
+                <!-- 2nd Organizer: Shub 999 -->
                 <div class="organizer-card">
                     <div class="avatar-circle">
-                        <i class="fa-solid fa-user-ninja"></i>
+                        <img src="https://i.postimg.cc/65nQy1m3/Chat-GPT-Image-Sep-24-2026-07-14-20-PM.png" alt="Shub 999 PFP">
                     </div>
                     <h3>Shub 999</h3>
                     <span class="role-pill">Co-Organizer</span>
@@ -736,15 +740,15 @@
                     </div>
                 </div>
 
-                <!-- Open Slot -->
-                <div class="organizer-card" style="border-style: dashed; opacity: 0.85;">
-                    <div class="avatar-circle" style="border-color: var(--text-muted); color: var(--text-muted); background: transparent;">
-                        <i class="fa-solid fa-user-plus"></i>
+                <!-- 3rd Host -->
+                <div class="organizer-card">
+                    <div class="avatar-circle">
+                        <img src="https://i.postimg.cc/5NLt6kR6/Chat-GPT-Image-Sep-24-2026-07-13-35-PM.png" alt="3rd Host PFP">
                     </div>
-                    <h3>Slot Open</h3>
-                    <span class="role-pill" style="color: var(--text-muted); background: rgba(255,255,255,0.05);">3rd Organizer Hiring</span>
+                    <h3>Co-Host</h3>
+                    <span class="role-pill">Tournament Host</span>
                     <div class="social-link-btns">
-                        <a href="https://wa.me/918780467849" target="_blank"><i class="fa-solid fa-handshake"></i></a>
+                        <a href="https://wa.me/918780467849" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
                     </div>
                 </div>
             </div>
@@ -815,7 +819,6 @@
                 const total = t.totalSlots || 48;
                 const cardBanner = t.banner && t.banner.trim() !== '' ? t.banner : GAMING_BANNERS[index % GAMING_BANNERS.length];
                 
-                // First Card becomes Featured Mega Card
                 const isFeatured = index === 0 ? 'featured' : '';
 
                 return `
