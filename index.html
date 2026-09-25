@@ -55,6 +55,20 @@
             z-index: 0;
         }
 
+        /* MOBILE SCROLL REVEAL ANIMATION SETUP */
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(35px) scale(0.96);
+            transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1), 
+                        opacity 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+            will-change: transform, opacity;
+        }
+
+        .scroll-reveal.reveal-active {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
         /* Toast Container */
         #toastContainer {
             position: fixed;
@@ -113,10 +127,7 @@
             transition: transform 0.3s ease;
         }
 
-        .brand:hover {
-            transform: scale(1.02);
-        }
-
+        .brand:hover { transform: scale(1.02); }
         .brand span { color: var(--accent-orange); }
 
         nav { display: flex; gap: 24px; }
@@ -142,9 +153,7 @@
             box-shadow: 0 0 8px var(--accent-orange);
         }
 
-        nav a:hover::after {
-            width: 100%;
-        }
+        nav a:hover::after { width: 100%; }
 
         nav a:hover {
             color: #fff;
@@ -179,9 +188,7 @@
             transition: left 0.5s ease;
         }
 
-        .btn-portal:hover::before {
-            left: 100%;
-        }
+        .btn-portal:hover::before { left: 100%; }
 
         .btn-portal:hover {
             transform: translateY(-2px);
@@ -471,9 +478,7 @@
             transition: transform 0.5s ease;
         }
 
-        .tourney-card:hover .tourney-banner {
-            transform: scale(1.05);
-        }
+        .tourney-card:hover .tourney-banner { transform: scale(1.05); }
 
         .tourney-body {
             padding: 20px;
@@ -583,9 +588,7 @@
             transition: transform 0.3s ease;
         }
 
-        .trust-list-item:hover .trust-icon {
-            transform: scale(1.1) rotate(-5deg);
-        }
+        .trust-list-item:hover .trust-icon { transform: scale(1.1) rotate(-5deg); }
 
         .workflow-steps-vertical {
             display: flex;
@@ -664,9 +667,7 @@
             transition: transform 0.3s ease;
         }
 
-        .organizer-card:hover .avatar-circle {
-            transform: scale(1.08);
-        }
+        .organizer-card:hover .avatar-circle { transform: scale(1.08); }
 
         .avatar-circle img {
             width: 100%;
@@ -749,9 +750,7 @@
             transition: transform 0.3s ease;
         }
 
-        .faq-accordion details[open] summary::after {
-            transform: rotate(180deg);
-        }
+        .faq-accordion details[open] summary::after { transform: rotate(180deg); }
 
         .faq-accordion p {
             font-size: 13px;
@@ -787,9 +786,7 @@
             transition: transform 0.3s ease;
         }
 
-        .helpline-item-inline:hover i {
-            transform: scale(1.2) rotate(-10deg);
-        }
+        .helpline-item-inline:hover i { transform: scale(1.2) rotate(-10deg); }
 
         .helpline-item-inline a {
             color: #fff;
@@ -1201,10 +1198,37 @@
         animateParticles();
     </script>
 
-    <!-- REALTIME FIRESTORE ENGINE + INTERACTIVE UX SCRIPTS -->
+    <!-- REALTIME FIRESTORE ENGINE + INTERACTIVE UX + SCROLL REVEAL SCRIPTS -->
     <script type="module">
         import { db } from './firebase-config.js';
         import { collection, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        // INTERSECTION OBSERVER FOR MOBILE & DESKTOP SCROLL REVEAL
+        const revealOnScroll = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('reveal-active');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            root: null,
+            threshold: 0.1,
+            rootMargin: "0px 0px -40px 0px"
+        });
+
+        function attachScrollObserver() {
+            const elementsToAnimate = document.querySelectorAll(
+                '.tourney-card, .bento-stat-card, .organizer-card, .trust-side-box, .workflow-side-box, .step-row'
+            );
+            
+            elementsToAnimate.forEach((el) => {
+                if (!el.classList.contains('scroll-reveal')) {
+                    el.classList.add('scroll-reveal');
+                    revealOnScroll.observe(el);
+                }
+            });
+        }
 
         const GAMING_BANNERS = [
             "https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=800&auto=format&fit=crop",
@@ -1274,6 +1298,9 @@
                         </div>
                     </div>`;
             }).join('');
+
+            // Attach scroll observers to newly rendered dynamic cards
+            setTimeout(attachScrollObserver, 50);
         }
 
         // Firestore Realtime Listener
@@ -1287,6 +1314,9 @@
                     <p>Unable to load live tournaments. Please try refreshing.</p>
                 </div>`;
         });
+
+        // Initial Observer Trigger for Static Elements
+        document.addEventListener('DOMContentLoaded', attachScrollObserver);
 
         // Event Listeners for Filters
         document.querySelectorAll('#statusFilters .tab-btn').forEach(btn => {
