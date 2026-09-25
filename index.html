@@ -41,6 +41,18 @@
             color: var(--text-main);
             line-height: 1.5;
             overflow-x: hidden;
+            position: relative;
+        }
+
+        /* PARTICLE CANVAS STYLING */
+        #particleCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
         }
 
         /* Toast Container */
@@ -65,7 +77,7 @@
             align-items: center;
             gap: 10px;
             font-size: 13px;
-            animation: slideIn 0.3s ease;
+            animation: slideIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         @keyframes slideIn {
@@ -98,6 +110,11 @@
             text-decoration: none;
             letter-spacing: 1px;
             text-shadow: 0 0 12px rgba(255, 87, 34, 0.4);
+            transition: transform 0.3s ease;
+        }
+
+        .brand:hover {
+            transform: scale(1.02);
         }
 
         .brand span { color: var(--accent-orange); }
@@ -109,11 +126,28 @@
             text-decoration: none;
             font-size: 14px;
             font-weight: 600;
-            transition: 0.3s;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0%;
+            height: 2px;
+            background: var(--accent-orange);
+            transition: width 0.3s ease;
+            box-shadow: 0 0 8px var(--accent-orange);
+        }
+
+        nav a:hover::after {
+            width: 100%;
         }
 
         nav a:hover {
-            color: var(--accent-orange);
+            color: #fff;
             text-shadow: 0 0 8px var(--accent-glow);
         }
 
@@ -125,13 +159,28 @@
             text-decoration: none;
             font-size: 13px;
             font-weight: 700;
-            transition: 0.3s;
+            transition: all 0.3s ease;
             display: inline-flex;
             align-items: center;
             gap: 8px;
             box-shadow: 0 0 15px var(--accent-glow);
             border: none;
             cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-portal::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn-portal:hover::before {
+            left: 100%;
         }
 
         .btn-portal:hover {
@@ -144,6 +193,8 @@
             max-width: 1250px;
             margin: 30px auto;
             padding: 0 20px;
+            position: relative;
+            z-index: 1;
         }
 
         /* BENTO HERO SECTION */
@@ -165,6 +216,12 @@
             flex-direction: column;
             justify-content: center;
             overflow: hidden;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .bento-hero-main::before {
@@ -189,6 +246,12 @@
         .bento-hero-main h1 span {
             color: var(--accent-orange);
             text-shadow: 0 0 20px var(--accent-glow);
+            animation: pulseGlow 2s infinite alternate;
+        }
+
+        @keyframes pulseGlow {
+            0% { text-shadow: 0 0 10px rgba(255, 87, 34, 0.4); }
+            100% { text-shadow: 0 0 25px rgba(255, 87, 34, 0.9); }
         }
 
         .bento-hero-main p {
@@ -217,7 +280,7 @@
             text-decoration: none;
             font-size: 13px;
             font-weight: 700;
-            transition: 0.3s;
+            transition: all 0.3s ease;
             cursor: pointer;
             display: inline-flex;
             align-items: center;
@@ -227,6 +290,7 @@
         .btn-secondary-glow:hover {
             border-color: var(--accent-orange);
             background: rgba(255, 87, 34, 0.1);
+            transform: translateY(-2px);
         }
 
         /* BENTO SIDE STATS TILE */
@@ -244,12 +308,13 @@
             display: flex;
             align-items: center;
             gap: 18px;
-            transition: 0.3s;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         .bento-stat-card:hover {
             border-color: var(--accent-orange);
-            transform: translateX(4px);
+            transform: translateX(6px);
+            box-shadow: -5px 5px 20px rgba(0,0,0,0.4);
         }
 
         .stat-icon-wrap {
@@ -263,6 +328,11 @@
             font-size: 22px;
             color: var(--accent-orange);
             border: 1px solid rgba(255, 87, 34, 0.25);
+            transition: transform 0.3s ease;
+        }
+
+        .bento-stat-card:hover .stat-icon-wrap {
+            transform: rotate(8deg) scale(1.1);
         }
 
         .stat-info h2 {
@@ -318,11 +388,12 @@
             color: #fff;
             font-size: 13px;
             outline: none;
-            transition: 0.3s;
+            transition: all 0.3s ease;
         }
 
         .search-input:focus {
             border-color: var(--accent-orange);
+            box-shadow: 0 0 12px var(--accent-glow);
         }
 
         .filter-tabs {
@@ -344,12 +415,13 @@
             font-size: 12px;
             font-weight: 700;
             cursor: pointer;
-            transition: 0.2s;
+            transition: all 0.2s ease;
         }
 
         .tab-btn.active, .tab-btn:hover {
             background: var(--accent-orange);
             color: #fff;
+            box-shadow: 0 0 10px var(--accent-glow);
         }
 
         /* MATCHES ASYMMETRIC MASONRY GRID */
@@ -373,15 +445,16 @@
             border: 1px solid var(--border-color);
             border-radius: 14px;
             overflow: hidden;
-            transition: all 0.3s ease;
+            transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             display: flex;
             flex-direction: column;
+            position: relative;
         }
 
         .tourney-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-8px) scale(1.01);
             border-color: var(--accent-orange);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.6), 0 0 15px var(--accent-glow);
         }
 
         .tourney-card.featured .tourney-banner {
@@ -395,6 +468,11 @@
             height: 150px;
             object-fit: cover;
             border-bottom: 1px solid var(--border-color);
+            transition: transform 0.5s ease;
+        }
+
+        .tourney-card:hover .tourney-banner {
+            transform: scale(1.05);
         }
 
         .tourney-body {
@@ -403,6 +481,8 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            position: relative;
+            z-index: 1;
         }
 
         .status-badge {
@@ -414,7 +494,18 @@
         }
 
         .badge-upcoming { background: rgba(0, 230, 118, 0.15); color: var(--green-glow); border: 1px solid var(--green-glow); }
-        .badge-live { background: rgba(255, 87, 34, 0.2); color: var(--accent-orange); border: 1px solid var(--accent-orange); }
+        .badge-live { 
+            background: rgba(255, 87, 34, 0.2); 
+            color: var(--accent-orange); 
+            border: 1px solid var(--accent-orange); 
+            animation: pulseBadge 1.5s infinite;
+        }
+
+        @keyframes pulseBadge {
+            0% { opacity: 0.7; }
+            50% { opacity: 1; box-shadow: 0 0 8px var(--accent-orange); }
+            100% { opacity: 0.7; }
+        }
 
         .tourney-details-grid {
             display: grid;
@@ -442,12 +533,15 @@
             font-weight: 700;
             text-decoration: none;
             text-transform: uppercase;
-            transition: 0.3s;
+            transition: all 0.3s ease;
         }
 
-        .join-btn:hover { box-shadow: 0 4px 15px rgba(37, 211, 102, 0.35); }
+        .join-btn:hover { 
+            box-shadow: 0 4px 18px rgba(37, 211, 102, 0.45); 
+            transform: translateY(-2px);
+        }
 
-        /* HORIZONTAL TWO-COLUMN TRUSTABILITY & WORKFLOW SECTION */
+        /* TRUST & WORKFLOW SECTION */
         .trust-workflow-wrapper {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -460,6 +554,11 @@
             border: 1px solid var(--border-color);
             border-radius: 16px;
             padding: 30px;
+            transition: border-color 0.3s ease;
+        }
+
+        .trust-side-box:hover, .workflow-side-box:hover {
+            border-color: rgba(255, 87, 34, 0.3);
         }
 
         .trust-list-item {
@@ -481,6 +580,11 @@
             justify-content: center;
             font-size: 20px;
             flex-shrink: 0;
+            transition: transform 0.3s ease;
+        }
+
+        .trust-list-item:hover .trust-icon {
+            transform: scale(1.1) rotate(-5deg);
         }
 
         .workflow-steps-vertical {
@@ -497,6 +601,12 @@
             border: 1px solid var(--border-color);
             padding: 14px 18px;
             border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .step-row:hover {
+            border-color: var(--accent-orange);
+            transform: translateX(5px);
         }
 
         .step-num {
@@ -511,9 +621,10 @@
             font-weight: 800;
             font-size: 13px;
             flex-shrink: 0;
+            box-shadow: 0 0 10px var(--accent-glow);
         }
 
-        /* ORGANIZERS GRID WITH CUSTOM PFP IMAGES */
+        /* ORGANIZERS GRID */
         .organizers-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -527,12 +638,13 @@
             border-radius: 14px;
             padding: 25px 20px;
             text-align: center;
-            transition: 0.3s;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         .organizer-card:hover {
             border-color: var(--accent-orange);
-            transform: translateY(-4px);
+            transform: translateY(-6px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
         }
 
         .avatar-circle {
@@ -549,6 +661,11 @@
             color: var(--accent-orange);
             box-shadow: 0 0 15px var(--accent-glow);
             overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .organizer-card:hover .avatar-circle {
+            transform: scale(1.08);
         }
 
         .avatar-circle img {
@@ -586,12 +703,13 @@
             justify-content: center;
             color: #fff;
             text-decoration: none;
-            transition: 0.2s;
+            transition: all 0.3s ease;
         }
 
         .social-link-btns a:hover {
             background: var(--accent-orange);
             border-color: var(--accent-orange);
+            transform: scale(1.15) rotate(5deg);
         }
 
         /* FAQ ACCORDION SECTION */
@@ -601,11 +719,12 @@
             border-radius: 10px;
             margin-bottom: 12px;
             padding: 14px 18px;
-            transition: 0.3s;
+            transition: all 0.3s ease;
         }
 
         .faq-accordion details[open] {
             border-color: var(--accent-orange);
+            box-shadow: 0 0 15px rgba(255, 87, 34, 0.15);
         }
 
         .faq-accordion summary {
@@ -627,7 +746,7 @@
             font-weight: 900;
             font-size: 12px;
             color: var(--accent-orange);
-            transition: 0.3s;
+            transition: transform 0.3s ease;
         }
 
         .faq-accordion details[open] summary::after {
@@ -639,6 +758,7 @@
             color: var(--text-muted);
             margin-top: 10px;
             line-height: 1.6;
+            animation: fadeIn 0.3s ease-in;
         }
 
         /* HELPLINE BANNER BAR */
@@ -664,6 +784,11 @@
         .helpline-item-inline i {
             font-size: 24px;
             color: var(--accent-orange);
+            transition: transform 0.3s ease;
+        }
+
+        .helpline-item-inline:hover i {
+            transform: scale(1.2) rotate(-10deg);
         }
 
         .helpline-item-inline a {
@@ -685,7 +810,7 @@
             padding: 20px;
             opacity: 0;
             pointer-events: none;
-            transition: 0.3s;
+            transition: opacity 0.3s ease;
         }
 
         .modal-overlay.active {
@@ -701,12 +826,13 @@
             width: 100%;
             padding: 30px;
             position: relative;
-            transform: translateY(20px);
-            transition: 0.3s;
+            transform: translateY(20px) scale(0.95);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 0 30px var(--accent-glow);
         }
 
         .modal-overlay.active .modal-card {
-            transform: translateY(0);
+            transform: translateY(0) scale(1);
         }
 
         .modal-close {
@@ -718,7 +844,10 @@
             color: var(--text-muted);
             font-size: 18px;
             cursor: pointer;
+            transition: color 0.2s ease;
         }
+
+        .modal-close:hover { color: var(--accent-orange); }
 
         /* Footer */
         footer {
@@ -728,6 +857,8 @@
             color: var(--text-muted);
             font-size: 12px;
             background: #040508;
+            position: relative;
+            z-index: 1;
         }
 
         /* Responsive Breakpoints */
@@ -751,6 +882,9 @@
     </style>
 </head>
 <body>
+
+    <!-- BACKGROUND CANVAS PARTICLES -->
+    <canvas id="particleCanvas"></canvas>
 
     <div id="toastContainer"></div>
 
@@ -834,7 +968,7 @@
         <section id="leaderboard" style="margin-bottom: 60px;">
             <div class="section-title" style="margin-bottom: 25px;"><i class="fa-solid fa-ranking-star"></i> Tournament Standings</div>
             <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 14px; padding: 35px; text-align: center;">
-                <i class="fa-solid fa-award" style="font-size: 36px; color: var(--accent-gold); margin-bottom: 12px;"></i>
+                <i class="fa-solid fa-award" style="font-size: 36px; color: var(--accent-gold); margin-bottom: 12px; animation: pulseGlow 2s infinite alternate;"></i>
                 <h3 style="font-size: 18px; margin-bottom: 6px;">Live Standings System Active</h3>
                 <p style="font-size: 13px; color: var(--text-muted); max-width: 500px; margin: 0 auto;">Official match results and top scorer rankings are published right after room verification by tournament hosts.</p>
             </div>
@@ -1002,6 +1136,70 @@
     <footer>
         <p>&copy; 2026 Booyah HUB Esports Community. All rights reserved.</p>
     </footer>
+
+    <!-- LIGHTWEIGHT CANVAS PARTICLES SCRIPT -->
+    <script>
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = document.body.scrollHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        const particlesArray = [];
+        const numberOfParticles = Math.min(Math.floor(window.innerWidth / 20), 60);
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2.5 + 0.5;
+                this.speedX = (Math.random() - 0.5) * 0.4;
+                this.speedY = (Math.random() - 0.5) * 0.4;
+                this.opacity = Math.random() * 0.5 + 0.2;
+                this.color = Math.random() > 0.5 ? '#ff5722' : '#ffb300';
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                if (this.x < 0) this.x = canvas.width;
+                if (this.x > canvas.width) this.x = 0;
+                if (this.y < 0) this.y = canvas.height;
+                if (this.y > canvas.height) this.y = 0;
+            }
+
+            draw() {
+                ctx.fillStyle = this.color;
+                ctx.globalAlpha = this.opacity;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            particlesArray.length = 0;
+            for (let i = 0; i < numberOfParticles; i++) {
+                particlesArray.push(new Particle());
+            }
+        }
+        initParticles();
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < particlesArray.length; i++) {
+                particlesArray[i].update();
+                particlesArray[i].draw();
+            }
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+    </script>
 
     <!-- REALTIME FIRESTORE ENGINE + INTERACTIVE UX SCRIPTS -->
     <script type="module">
